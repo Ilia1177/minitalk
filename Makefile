@@ -1,6 +1,8 @@
 SERVER 	:= server
 CLIENT 	:= client
 
+NAME	:= $(CLIENT) $(SERVEUR)
+
 OBJS	:= $(SRCS:.c=.o)	
 
 CC		:= cc
@@ -12,9 +14,7 @@ SRCS = server.c\
 
 
 
-all : $(CLIENT) $(SERVER)
-
-$(NAME)		: $(SERVER) $(CLIENT)
+all : $(NAME) 
 
 $(SERVER)	:
 	cc server.c libft/libft.a -o server
