@@ -6,21 +6,16 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:05:34 by npolack           #+#    #+#             */
-/*   Updated: 2024/10/29 19:32:14 by npolack          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:41:25 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-// SERVER
+////////////////////////// SERVER //////////////////////////////////////////////
 
 void	handle_sigusr(int sig, siginfo_t *info, void *context);
-
-void	send_confirmation(pid_t pid)
-{
-	kill(pid, SIGUSR1);
-	ft_printf("\n");
-}
+void	send_confirmation(pid_t pid);
 
 int	main(void)
 {
@@ -63,4 +58,10 @@ void	handle_sigusr(int sig, siginfo_t *info, void *context)
 		bits_count = 0;
 		current_char = 0;
 	}
+}
+
+void	send_confirmation(pid_t pid)
+{
+	kill(pid, SIGUSR1);
+	ft_printf("\n");
 }
