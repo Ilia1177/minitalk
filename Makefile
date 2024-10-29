@@ -1,23 +1,42 @@
 SERVER 	:= server
 CLIENT 	:= client
 
-NAME	:= $(CLIENT) $(SERVEUR)
+NAME	:= $(SERVER) $(CLIENT) 
 
-OBJS	:= $(SRCS:.c=.o)	
-
+LIBFT 	:= libft/libft.a
 CC		:= cc
+RM		:= rm -f
+CFLAGS	:= -Wall -Wextra -Werror -g
 
-CFLAGS	:= -Wall -Wextra -Werror
+S_SRC 	:= 	server.c
+C_SRC	:=	client.c
 
-SRCS = server.c\
-	   client.c
+C_OBJ	:= $(C_SRC:.c=.o)
+S_OBJ	:= $(S_SRC:.c=.o)
+OBJS	:= $(C_OBJ) $(S_OBJ)
 
+all 		: $(NAME)
 
+clean 		:
+	make clean -C libft
+	$(RM) $(OBJS)
+	
+fclean		:	clean
+	make fclean -C libft
+	$(RM) $(NAME)
+	
+re			:	fclean all
 
-all : $(NAME) 
+%.o			: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(SERVER)	:
-	cc server.c libft/libft.a -o server
+$(LIBFT)	:
+	make -C libft
 
-$(CLIENT)	:
-	cc client.c libft/libft.a -o client
+$(SERVER)	:	$(S_OBJ) $(LIBFT)
+	$(CC) $^ -o $(SERVER)
+
+$(CLIENT)	:	$(C_OBJ) $(LIBFT)
+	$(CC) $^ -o $(CLIENT)
+
+.PHONY	:	all clean fclean re bonus

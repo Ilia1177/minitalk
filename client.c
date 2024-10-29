@@ -1,18 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 19:22:50 by npolack           #+#    #+#             */
+/*   Updated: 2024/10/29 19:34:10 by npolack          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
- //	CLIENT
+
+////////////////////////// CLIENT //////////////////////////////////////////////
+
 void	send_to(pid_t pid, char *message);
-int main(int argc, char **argv)
+void	get_response(int sig, siginfo_t *info, void *context);
+
+int	main(int argc, char **argv)
 {
-	(void)argc;
+	char				*message;
+	int					server_pid;
+	struct sigaction	response;
 
-	char	*message;
-	int		serverPID;
-	int messagenum = 0x54;
-
-	serverPID = ft_atoi(argv[1]);
+	response.sa_sigaction = get_response;
+	sigaction(SIGUSR1, &response, NULL);
+	if (argc != 3)
+		return (0);
+	server_pid = ft_atoi(argv[1]);
+	if (server_pid <= 0)
+		return (0);
+	message = 0;
 	message = ft_strdup(argv[2]);
-	send_to(serverPID, message);
-	kill(serverPID, SIGUSR1);
+	if (!message)
+		return (0);
+	send_to(server_pid, message);
+	return (0);
 }
 
 void	send_to(pid_t pid, char *message)
@@ -20,21 +43,32 @@ void	send_to(pid_t pid, char *message)
 	unsigned char	c;
 	int				i;
 
-	i = 0;
 	while (*message)
 	{
 		c = *message;
-		if ((c >> i) & 1)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
+		i = 7;
+		while (i >= 0)
+		{
+			if ((c >> i) & 1)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			i--;
+			usleep(101);
+		}
 		message++;
 	}
-	while (i < 7)
+	i = -1;
+	while (++i < 8)
 	{
 		kill(pid, SIGUSR2);
-		i++;
+		usleep(200);
 	}
-	free(message);
 }
 
+void	get_response(int sig, siginfo_t *info, void *context)
+{
+	(void)context;
+	if (sig == SIGUSR1)
+		ft_printf("message receivedi from %u", info->si_pid);
+}
