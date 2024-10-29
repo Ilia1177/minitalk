@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:22:50 by npolack           #+#    #+#             */
-/*   Updated: 2024/10/29 19:34:10 by npolack          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:39:52 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	send_to(pid_t pid, char *message)
 			else
 				kill(pid, SIGUSR2);
 			i--;
-			usleep(101);
+			usleep(100);
 		}
 		message++;
 	}
@@ -62,7 +62,7 @@ void	send_to(pid_t pid, char *message)
 	while (++i < 8)
 	{
 		kill(pid, SIGUSR2);
-		usleep(200);
+		usleep(100);
 	}
 }
 
