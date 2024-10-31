@@ -1,6 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: npolack <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/30 13:38:08 by npolack           #+#    #+#              #
+#    Updated: 2024/10/30 13:40:33 by npolack          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SERVER 	:= server
 CLIENT 	:= client
-
 NAME	:= $(SERVER) $(CLIENT) 
 
 LIBFT 	:= libft/libft.a
@@ -34,9 +45,9 @@ $(LIBFT)	:
 	make -C libft
 
 $(SERVER)	:	$(S_OBJ) $(LIBFT)
-	$(CC) $^ -o $(SERVER)
+	$(CC) $(CFLAGS) $^ -o $(SERVER)
 
 $(CLIENT)	:	$(C_OBJ) $(LIBFT)
-	$(CC) $^ -o $(CLIENT)
+	$(CC) $(CFLAGS) $^ -o $(CLIENT)
 
-.PHONY	:	all clean fclean re bonus
+.PHONY	:	all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:22:50 by npolack           #+#    #+#             */
-/*   Updated: 2024/10/29 19:39:52 by npolack          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:42:12 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	get_response(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
 	if (sig == SIGUSR1)
-		ft_printf("message receivedi from %u", info->si_pid);
+		ft_printf("message received from %i", info->si_pid);
 }
